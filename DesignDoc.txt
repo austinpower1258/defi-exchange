@@ -1,0 +1,21 @@
+// =================== CPSC466 DEX Project =================== // 
+//                      Design Document                      //
+//                          Austin Wang                            //
+// ========================================================= //  
+
+
+1. Explain why adding and removing liquidity to your exchange does not change the exchange rate.
+
+The exchange rate remains unchanged when adding or removing liquidity because the contract calculates equal values of ETH and tokens based on the exchange rate itself. This ensures that the exchange rate is preserved after liquidity adjustments. The contract also checks if the user has an equal value of ETH and tokens before adding or removing liquidity, preventing potential manipulation. Preserving the exchange rate is crucial to prevent attackers from profiting by temporarily lowering the rate and exploiting the difference.
+
+
+2. Explain your scheme for rewarding liquidity providers and justify the design decisions you made. How does it satisfy the liquidity rewards requirements outlined in Section 7?
+
+The reward scheme for liquidity providers (LPs) involves taking a 3% fee from the exchanged currency, which is then distributed proportionally among LPs based on their ownership percentage. When liquidity is added or removed, the ownership fractions are updated accordingly, ensuring that the total ownership always sums to 1. This method maintains a fair distribution of rewards among LPs.
+
+
+
+3. Describe at least one method you used to minimize your exchange contract's gas usage. Why was this method effective?
+
+Code optimization and efficiency were prioritized in several ways. For instance, when initializing an account for a liquidity provider, instead of writing separate initialization code, the user's account balance was set to 0 and they were added to the liquidity provider list. Then, the existing code that assumed the account was already set up was rerun, updating the user's balance from 0%. This approach streamlined the initialization process. Additionally, helper functions were employed to group parts of the code with similar purposes, such as updating state variables like eth_reserves, token_reserves, and k. This not only made the contract more concise but also reduced gas usage, contributing to overall efficiency.
+
